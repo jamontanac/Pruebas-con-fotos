@@ -16,7 +16,7 @@ def order_points(pts):
     que la parte inferior derecha tendra la suma mas grande
     '''
     
-    s= pts.sum(axis=0)
+    s= pts.sum(axis=1)
     rect[0]=pts[np.argmin(s)]
     rect[2]=pts[np.argmax(s)]
     
@@ -27,10 +27,11 @@ def order_points(pts):
     '''
     diff = np.diff(pts,axis=1)
     rect[1]=pts[np.argmin(diff)]
-    rect[3]=pts[np.argmin(diff)]
+    rect[3]=pts[np.argmax(diff)]
     
     #Retorna el orden de las coordenadas
     return rect
+
 def four_point_transform(image,pts):
     '''
     Obtener un orden consistente de los puntos y 
@@ -45,8 +46,8 @@ def four_point_transform(image,pts):
     en las cordenadas de x o entre la parte superior 
     derecha a la parte superior izquierda en el eje x
     '''
-    widthA = np.sqrt((br[0]-bl[0])**2+(br[1]-bl[1])**2)
-    widthB = np.sqrt((tr[0]-tl[0])**2+(tr[1]-tl[1])**2)
+    widthA = np.sqrt(((br[0]-bl[0])**2)+((br[1]-bl[1])**2))
+    widthB = np.sqrt(((tr[0]-tl[0])**2)+((tr[1]-tl[1])**2))
     maxWidth = max(int(widthA),int(widthB))
     
     '''
@@ -55,7 +56,7 @@ def four_point_transform(image,pts):
     en las coordenadas y o la parte superior izquierda y la parte 
     inferior izquierda tambien en las coordenadas de y
     '''
-    heightA = np.sqrt((tr[0]-br[0])**2+(tr[1]-bl[1])**2)
+    heightA = np.sqrt((tr[0]-br[0])**2+(tr[1]-br[1])**2)
     heightB = np.sqrt((tl[0]-bl[0])**2+(tl[1]-bl[1])**2)
     maxHeight=max(int(heightA),int(heightB))
     
@@ -69,6 +70,6 @@ def four_point_transform(image,pts):
     dst = np.array([[0,0],[maxWidth-1,0],[maxWidth-1,maxHeight-1],[0,maxHeight-1]],dtype="float32")
     # Calcule la matriz de transformacion de la perspectiva y apliquela
     M=cv2.getPerspectiveTransform(rect,dst)
-    wraped = cv2.wrapPerspective(image,M,(maxWidth,maxHeight))
+    warped = cv2.warpPerspective(image,M,(maxWidth,maxHeight))
     
-    return wraped
+    return warped
