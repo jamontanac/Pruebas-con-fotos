@@ -16,3 +16,9 @@ Para salir de un ambiente se usa
 conda deactivate
 ```
 
+Para instalar un paquete en un ambiente especifico usar
+
+```bash
+conda install --name "nombre ambiente" "paquete"
+```
+
