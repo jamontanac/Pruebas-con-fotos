@@ -21,4 +21,4 @@ Para instalar un paquete en un ambiente especifico usar
 ```bash
 conda install --name "nombre ambiente" "paquete"
 ```
-
+Fuente de las librerias e informaci{on general [link](https://www.pyimagesearch.com/2015/02/02/just-open-sourced-personal-imutils-package-series-opencv-convenience-functions/)
