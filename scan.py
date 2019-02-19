@@ -26,19 +26,52 @@ ratio = image.shape[0]/500
 #se pone la imagen escaneada a un tamaño de 500 pixeles
 original = image.copy()
 image=imutils.resize(image,height=500)
-
+'''
 plt.figure("original")
 plt.imshow(imutils.opencv2matplotlib(image))
 plt.show()
-
+'''
 
 #Convertir la imagen a una escala de grices, borrosearla,
 # encontrar los bordes enb la imagen
 gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
 gray = cv2.GaussianBlur(gray,(5,5),0)
 edged = cv2.Canny(gray,75,200)
-
+print("Paso 1 detectar bordes")
+'''
 plt.figure("edged")
 plt.imshow(imutils.opencv2matplotlib(edged))
 plt.show()
+'''
+plt.subplot(121)
+plt.imshow(imutils.opencv2matplotlib(image))
+plt.xticks([]),plt.yticks([])
+plt.title("Original image")
+plt.subplot(122)
+plt.imshow(imutils.opencv2matplotlib(edged),cmap="gray")
+plt.title("Edged  image")
+plt.xticks([]),plt.yticks([])
+plt.show()
 
+# encontrar los contornos en la imagen "edged" manteniendo sólo aquellos bordes más grandes
+
+cnts = cv2.findContours(edged.copy(),cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+cnts = imutils.grab_contours(cnts)
+cnts=sorted(cnts,key=cv2.contourArea,reverse = True)[:5]
+#ctns contiene los contornos ordenados de menor a mayor
+for c in cnts:
+	#se aproxima el contorno
+	peri = cv2.arcLength(c,True)
+	approx = cv2.approxPolyDP(c,0.02*peri,True)
+	# si nuestro contorno aproximado tiene cuatro 
+	# puntos, entonces se podria decir que tenemos
+	# la imagen formada.
+	if len(approx)==4:
+		screenCtn = approx
+		break
+print("Paso 2 encontrar el contorno del documento")
+cv2.drawContours(image,[screenCtn],-1,(0,255,0),2)
+plt.imshow(imutils.opencv2matplotlib(image))
+plt.xticks([]),plt.yticks([])
+plt.title("Original image")
+plt.show()
