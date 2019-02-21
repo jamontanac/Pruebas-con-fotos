@@ -1,5 +1,5 @@
 # forma de utilizar
-# python transform_example.py --image Imagenes/example_01.png --cords "[(73,239),(356,117),(475,265),(187,443)]"
+# python transform_example.py --image Imagenes/example_01.png --coords "[(73,239),(356,117),(475,265),(187,443)]"
 
 # importar las cosas necesarias
 
@@ -9,7 +9,7 @@ import argparse
 import cv2
 import matplotlib.pylab as plt
 
-# contruir el "parse" y sus argumentos
+# contruir el parse y sus argumentos
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-i","--image",help="direccion donde esta la imagen")
@@ -22,9 +22,9 @@ Esto debe ser automatizado para poder ser usado de forma autonoma
 image=cv2.imread(args["image"])
 pts = np.array(eval(args["coords"]),dtype="float32")
 print(pts)
-# aplicar la transformación de 4 puntos para obtener la imagen con la pperspectiva deseada
+# aplicar la transformacion de 4 puntos para obtener la imagen con la pperspectiva deseada
 warped = four_point_transform(image,pts)
-# muestre las imagenes originales y la transformación
+# muestre las imagenes originales y la transformacion
 plt.imshow(image, cmap = 'gray', interpolation = 'bicubic')
 plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
 plt.show()

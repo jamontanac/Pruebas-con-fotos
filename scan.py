@@ -22,7 +22,7 @@ args=vars(ap.parse_args())
 
 image=cv2.imread(args["image"])
 ratio = image.shape[0]/500
-#Solo para mejorar el rendimiento del procesamiento, 
+#Solo para mejorar el rendimiento del procesamiento,
 #se pone la imagen escaneada a un tamaño de 500 pixeles
 original = image.copy()
 image=imutils.resize(image,height=500)
@@ -53,7 +53,7 @@ plt.title("Edged  image")
 plt.xticks([]),plt.yticks([])
 plt.show()
 
-# encontrar los contornos en la imagen "edged" manteniendo sólo aquellos bordes más grandes
+# encontrar los contornos en la imagen "edged" manteniendo solo aquellos bordes más grandes
 
 cnts = cv2.findContours(edged.copy(),cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
 cnts = imutils.grab_contours(cnts)
@@ -63,15 +63,48 @@ for c in cnts:
 	#se aproxima el contorno
 	peri = cv2.arcLength(c,True)
 	approx = cv2.approxPolyDP(c,0.02*peri,True)
-	# si nuestro contorno aproximado tiene cuatro 
+	# si nuestro contorno aproximado tiene cuatro
 	# puntos, entonces se podria decir que tenemos
 	# la imagen formada.
 	if len(approx)==4:
 		screenCtn = approx
 		break
 print("Paso 2 encontrar el contorno del documento")
-cv2.drawContours(image,[screenCtn],-1,(0,255,0),2)
+cv2.drawContours(image,[screenCtn],-1,(0,255,230),2)
 plt.imshow(imutils.opencv2matplotlib(image))
 plt.xticks([]),plt.yticks([])
 plt.title("Original image")
+plt.show()
+
+# Apliquemos la transformacion de cuatro puntos
+warped = four_point_transform(original,screenCtn.reshape(4,2)*ratio)
+
+#Convertir las imagenes warped a una esca de grices, luego imponer
+#un umbral para dar el efecto blanco y negro del papel
+
+warped = cv2.cvtColor(warped,cv2.COLOR_BGR2GRAY)
+T = threshold_local(warped,35,offset=10,method = "gaussian")
+warped = (warped > T).astype("uint8")*255
+
+print("Paso 3: Aplicar el cambio de perspectiva")
+
+'''
+plt.imshow(imutils.opencv2matplotlib(original))
+plt.xticks([]),plt.yticks([])
+plt.title("Original image")
+plt.show()
+
+plt.imshow(imutils.opencv2matplotlib(warped))
+plt.xticks([]),plt.yticks([])
+plt.title("Escaneada")
+plt.show()
+'''
+plt.imshow(imutils.opencv2matplotlib(imutils.resize(original,height = 2220)))
+plt.xticks([]),plt.yticks([])
+plt.title("Original imagen con ampliacion")
+plt.show()
+
+plt.imshow(imutils.opencv2matplotlib(imutils.resize(warped,height =2080)))
+plt.xticks([]),plt.yticks([])
+plt.title("Escaneada con ampliacion")
 plt.show()
