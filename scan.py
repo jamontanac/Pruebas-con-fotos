@@ -19,6 +19,7 @@ args=vars(ap.parse_args())
 
 # Cargar la imagen y calcular la porcion de la altura que se va a modificar
 # clonar la imagen y reajustar el tamaño
+<<<<<<< HEAD
 num_pixels=700
 image=cv2.imread(args["image"])
 ratio = image.shape[0]/num_pixels
@@ -26,6 +27,15 @@ ratio = image.shape[0]/num_pixels
 #se pone la imagen escaneada a un tamaño de 500 pixeles
 original = image.copy()
 image=imutils.resize(image,height=num_pixels)
+=======
+num_pixel=500
+image=cv2.imread(args["image"])
+ratio = image.shape[0]/num_pixel
+#Solo para mejorar el rendimiento del procesamiento,
+#se pone la imagen escaneada a un tamaño de 500 pixeles
+original = image.copy()
+image=imutils.resize(image,height=num_pixel)
+>>>>>>> 20f4596cceefd71f68988197e70d52620e3d5903
 '''
 plt.figure("original")
 plt.imshow(imutils.opencv2matplotlib(image))
@@ -82,14 +92,19 @@ warped = four_point_transform(original,screenCtn.reshape(4,2)*ratio)
 #Convertir las imagenes warped a una esca de grices, luego imponer
 #un umbral para dar el efecto blanco y negro del papel
 
+plt.imshow(imutils.opencv2matplotlib(imutils.resize(warped,height =2000)))
+plt.xticks([]),plt.yticks([])
+plt.title("Escaneada con ampliacion")
+plt.show()
 warped = cv2.cvtColor(warped,cv2.COLOR_BGR2GRAY)
 T = threshold_local(warped,35,offset=10,method = "gaussian")
 warped = (warped > T).astype("uint8")*255
 
+
 print("Paso 3: Aplicar el cambio de perspectiva")
 
 '''
-plt.imshow(imutils.opencv2matplotlib(original))
+splt.imshow(imutils.opencv2matplotlib(original))
 plt.xticks([]),plt.yticks([])
 plt.title("Original image")
 plt.show()
@@ -104,7 +119,11 @@ plt.xticks([]),plt.yticks([])
 plt.title("Original imagen con ampliacion")
 plt.show()
 
+<<<<<<< HEAD
 plt.imshow(imutils.opencv2matplotlib(imutils.resize(warped,height =800)))
+=======
+plt.imshow(imutils.opencv2matplotlib(imutils.resize(warped,height =2000)))
+>>>>>>> 20f4596cceefd71f68988197e70d52620e3d5903
 plt.xticks([]),plt.yticks([])
 plt.title("Escaneada con ampliacion")
 plt.show()
