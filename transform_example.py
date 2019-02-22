@@ -22,9 +22,9 @@ Esto debe ser automatizado para poder ser usado de forma autonoma
 image=cv2.imread(args["image"])
 pts = np.array(eval(args["coords"]),dtype="float32")
 print(pts)
-# aplicar la transformación de 4 puntos para obtener la imagen con la pperspectiva deseada
+# aplicar la transformacion de 4 puntos para obtener la imagen con la pperspectiva deseada
 warped = four_point_transform(image,pts)
-# muestre las imagenes originales y la transformación
+# muestre las imagenes originales y la transformacion
 plt.imshow(image, cmap = 'gray', interpolation = 'bicubic')
 plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
 plt.show()
