@@ -19,13 +19,13 @@ args=vars(ap.parse_args())
 
 # Cargar la imagen y calcular la porcion de la altura que se va a modificar
 # clonar la imagen y reajustar el tamaño
-
+num_pixels=700
 image=cv2.imread(args["image"])
-ratio = image.shape[0]/500
+ratio = image.shape[0]/num_pixels
 #Solo para mejorar el rendimiento del procesamiento,
 #se pone la imagen escaneada a un tamaño de 500 pixeles
 original = image.copy()
-image=imutils.resize(image,height=500)
+image=imutils.resize(image,height=num_pixels)
 '''
 plt.figure("original")
 plt.imshow(imutils.opencv2matplotlib(image))
@@ -70,7 +70,7 @@ for c in cnts:
 		screenCtn = approx
 		break
 print("Paso 2 encontrar el contorno del documento")
-cv2.drawContours(image,[screenCtn],-1,(0,255,230),2)
+cv2.drawContours(image,[screenCtn],-1,(255,0,50),2)
 plt.imshow(imutils.opencv2matplotlib(image))
 plt.xticks([]),plt.yticks([])
 plt.title("Original image")
@@ -99,12 +99,12 @@ plt.xticks([]),plt.yticks([])
 plt.title("Escaneada")
 plt.show()
 '''
-plt.imshow(imutils.opencv2matplotlib(imutils.resize(original,height = 2220)))
+plt.imshow(imutils.opencv2matplotlib(imutils.resize(original,height = 800)))
 plt.xticks([]),plt.yticks([])
 plt.title("Original imagen con ampliacion")
 plt.show()
 
-plt.imshow(imutils.opencv2matplotlib(imutils.resize(warped,height =2080)))
+plt.imshow(imutils.opencv2matplotlib(imutils.resize(warped,height =800)))
 plt.xticks([]),plt.yticks([])
 plt.title("Escaneada con ampliacion")
 plt.show()
