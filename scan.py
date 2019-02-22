@@ -19,7 +19,7 @@ args=vars(ap.parse_args())
 
 # Cargar la imagen y calcular la porcion de la altura que se va a modificar
 # clonar la imagen y reajustar el tamaño
-<<<<<<< HEAD
+
 num_pixels=700
 image=cv2.imread(args["image"])
 ratio = image.shape[0]/num_pixels
@@ -27,7 +27,7 @@ ratio = image.shape[0]/num_pixels
 #se pone la imagen escaneada a un tamaño de 500 pixeles
 original = image.copy()
 image=imutils.resize(image,height=num_pixels)
-=======
+
 num_pixel=500
 image=cv2.imread(args["image"])
 ratio = image.shape[0]/num_pixel
@@ -35,7 +35,7 @@ ratio = image.shape[0]/num_pixel
 #se pone la imagen escaneada a un tamaño de 500 pixeles
 original = image.copy()
 image=imutils.resize(image,height=num_pixel)
->>>>>>> 20f4596cceefd71f68988197e70d52620e3d5903
+
 '''
 plt.figure("original")
 plt.imshow(imutils.opencv2matplotlib(image))
@@ -119,11 +119,11 @@ plt.xticks([]),plt.yticks([])
 plt.title("Original imagen con ampliacion")
 plt.show()
 
-<<<<<<< HEAD
+
 plt.imshow(imutils.opencv2matplotlib(imutils.resize(warped,height =800)))
-=======
+
 plt.imshow(imutils.opencv2matplotlib(imutils.resize(warped,height =2000)))
->>>>>>> 20f4596cceefd71f68988197e70d52620e3d5903
+
 plt.xticks([]),plt.yticks([])
 plt.title("Escaneada con ampliacion")
 plt.show()
